@@ -31,5 +31,13 @@ module.exports = server => {
     res.json(id);
   });
 
+  router.get('/courses/:id/authors', (req, res, next) => {
+    let state = server.db.getState();
+    const courseId = req.params.id;
+
+    const course = state.courses.filter(c => c.id == courseId);
+    res.json(course[0].authors);
+  });
+
   return router;
 };
