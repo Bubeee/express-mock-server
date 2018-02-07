@@ -16,8 +16,8 @@ module.exports = server => {
     if (courses.length < to) {
       to = courses.length;
     }
-		courses = courses.slice(from, to);
-		courses = courses.filter(course => course.name.indexOf(queryStr) !== -1)
+    courses = courses.slice(from, to);
+    courses = courses.filter(course => course.name.indexOf(queryStr) !== -1);
 
     res.json(courses);
   });
@@ -42,6 +42,18 @@ module.exports = server => {
   router.post('/courses', (req, res, next) => {
     let state = server.db.getState();
     const course = req.body;
+    state.courses.push(course);
+    server.db.setState(state);
+
+    res.json(course);
+  });
+
+  router.put('/courses/:id', (req, res, next) => {
+    let state = server.db.getState();
+    const id = req.params.id;
+    let course = req.body;
+
+    state.courses = state.courses.filter(course => course.id != id);
     state.courses.push(course);
     server.db.setState(state);
 
