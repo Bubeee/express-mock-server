@@ -39,5 +39,14 @@ module.exports = server => {
     res.json(course[0].authors);
   });
 
+  router.post('/courses', (req, res, next) => {
+    let state = server.db.getState();
+    const course = req.body;
+    state.courses.push(course);
+    server.db.setState(state);
+
+    res.json(course);
+  });
+
   return router;
 };
