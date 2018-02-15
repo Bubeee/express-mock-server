@@ -12,12 +12,12 @@ module.exports = server => {
       queryStr = query.query,
       courses = server.db.getState().courses;
     console.log(sort);
-    console.log(queryStr);
+    console.log(queryStr, from, to);
     if (courses.length < to) {
       to = courses.length;
     }
-    courses = courses.slice(from, to);
     courses = courses.filter(course => course.name.indexOf(queryStr) !== -1);
+    courses = courses.slice(from, to);
 
     res.json(courses);
   });
@@ -45,6 +45,7 @@ module.exports = server => {
     state.courses.push(course);
     server.db.setState(state);
 
+    console.log(state.courses)
     res.json(course);
   });
 
